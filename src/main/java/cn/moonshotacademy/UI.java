@@ -40,7 +40,7 @@ public class UI {
         if (sign.equals("product")) {
             this.display_product();
         } else if (sign.equals("buy")) {
-            this.buy_in();
+            this.buy_in(in);
         } else if (sign.equals("account")) {
             this.display_account();
         } else if (sign.equals("login")) {
@@ -80,7 +80,7 @@ public class UI {
         }
     }
 
-    public void buy_in() {
+    public void buy_in(String[] in) {
         if (!account.login) {
             log_in_account();
         }
