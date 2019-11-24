@@ -1,14 +1,14 @@
 package cn.moonshotacademy;
 
-public class App 
-{
-    public static void main(String[] args)
-    {
+public class App {
+    public static void main(String[] args) {
+        UI ui = new UI();
+
         Storage storage = new Storage();
 
-        Account account = new Account(storage);
+        Account account = new Account(storage, ui);
 
-        UI ui = new UI();
-        ui.init(account, storage);
+        Controller controller = new Controller(account,storage,ui);
+        controller.init();
     }
 }

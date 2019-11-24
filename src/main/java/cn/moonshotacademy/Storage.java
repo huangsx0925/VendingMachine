@@ -3,7 +3,6 @@ package cn.moonshotacademy;
 public class Storage {
     public int length;
     public Product[] products = new Product[100];
-    public int warning;
 
     public Storage() {
         this.length = 6;
@@ -15,26 +14,27 @@ public class Storage {
         this.products[6] = new Product(6, "soup", 30.00, 100);
     }
 
-    // Use this carefully. It needs to ensure enough remain products.
-    public void export_remain(int id, int number) {
+    public void sell_out(int id, int number) throws Exception {
+        if (this.products[id].remain < number) {
+            throw new Exception("Not enough storage");
+        } else {
+            this.products[id].remain -= number;
+        }
+    }
+
+    public Product get_product(int id) throws Exception {
         if ((id > 0) && (id <= this.length)) {
-            products[id].remain -= number;
+            return this.products[id];
         } else {
-            warning = 2;
+            throw new Exception("wrong arguments");
         }
     }
 
-    public boolean sell_out(int id, int number) {
-        if (products[id].remain < number) {
-            this.warning = 1;
-            return false;
-        } else {
-            this.export_remain(id, number);
-            return true;
+    public void display() {
+        System.out.println("This is the product list");
+        for (int i = 1; i <= this.length; i++) {
+            this.products[i].display();
         }
-    }
-
-    public Product getproduct(int id) {
-        return products[id];
+        System.out.println();
     }
 }
