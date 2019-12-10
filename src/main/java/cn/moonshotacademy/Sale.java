@@ -1,22 +1,16 @@
 package cn.moonshotacademy;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Sale {
+    private int id;
     private String name;
     private Pair[] price;
     private int remain;
+    @Autowired
+    private UI ui;
 
-    public Sale(String name, Pair[] price, int remain) {
-        this.name = name;
-        this.price = price;
-        this.remain = remain;
-    }
-
-    public String get_name() {
-        return this.name;
-    }
-
-    public int get_remain() {
-        return this.remain;
+    public Sale() {
     }
 
     public void consume() throws Exception {
@@ -26,9 +20,10 @@ public class Sale {
         this.remain--;
     }
 
-    public void display_sale() {
-        System.out.print(this.name + " ");
-        System.out.println("remaining:" + this.remain);
+    public void display() {
+        ui.print("id:" + this.id);
+        ui.print(" name:" + this.name);
+        ui.print(" remaining:" + this.remain + "\r\n");
     }
 
     public Double get_price(Double original_price) {
@@ -50,5 +45,45 @@ public class Sale {
             }
         }
         return pre.y + (pos.y - pre.y) / (pos.x - pre.x) * (original_price - pre.x);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Pair[] getPrice() {
+        return price;
+    }
+
+    public void setPrice(Pair[] price) {
+        this.price = price;
+    }
+
+    public int getRemain() {
+        return remain;
+    }
+
+    public void setRemain(int remain) {
+        this.remain = remain;
+    }
+
+    public UI getUi() {
+        return ui;
+    }
+
+    public void setUi(UI ui) {
+        this.ui = ui;
     }
 }

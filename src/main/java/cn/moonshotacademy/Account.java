@@ -1,39 +1,65 @@
 package cn.moonshotacademy;
 
-public class Account {
-    private String id;
-    private String password;
-    private Double remain;
-    private boolean login;
-    private Storage storage;
-    private Sale[] sales = new Sale[10];
-    private UI ui;
+import java.util.ArrayList;
 
-    public Account(Storage storage, UI ui) {
-        this.storage = storage;
-        this.ui = ui;
-        this.id = "Drinker";
-        this.password = "123456";
-        this.remain = 300.00;
-        this.login = false;
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component("account")
+public class Account {
+    @Autowired
+    private UI ui;
+    @Autowired
+    private Storage storage;
+
+    @Value("Drinker")
+    private String id;
+    @Value("123456")
+    private String password;
+    @Value("300.00")
+    private Double remain;
+    @Value("false")
+    private boolean login;
+    private ArrayList<Sale> sales = new ArrayList<Sale>();
+    // private ArrayList<String> record = new ArrayList<String>();
+
+    public Account() {
+    }
+
+    @PostConstruct
+    public void init() {
+        for(int i=0;i<4;i++){
+            this.sales.add(new Sale());
+            this.sales.get(i).setId(i);
+            this.sales.get(i).setUi(ui);
+        }
         {
             Pair[] p = new Pair[2];
             p[0] = new Pair(0.0, 0.0);
             p[1] = new Pair(10000.0, 10000.0);
-            this.sales[0] = new Sale("default", p, 10000);
+            this.sales.get(0).setName("default");
+            this.sales.get(0).setPrice(p);
+            this.sales.get(0).setRemain(10000);
         }
         {
             Pair[] p = new Pair[2];
             p[0] = new Pair(0.0, 0.0);
             p[1] = new Pair(10000.0, 8000.0);
-            this.sales[1] = new Sale("20% off", p, 3);
+            this.sales.get(1).setName("20% off");
+            this.sales.get(1).setPrice(p);
+            this.sales.get(1).setRemain(3);
         }
         {
             Pair[] p = new Pair[3];
             p[0] = new Pair(0.0, 0.0);
             p[1] = new Pair(100.0, 100.0);
             p[2] = new Pair(10000.0, 7525.0);
-            this.sales[2] = new Sale("25% off for the part over 100", p, 3);
+            this.sales.get(2).setName("25% off for the part over 100");
+            this.sales.get(2).setPrice(p);
+            this.sales.get(2).setRemain(3);
         }
         {
             Pair[] p = new Pair[4];
@@ -41,61 +67,63 @@ public class Account {
             p[1] = new Pair(50.0, 50.0);
             p[2] = new Pair(50.0, 40.0);
             p[3] = new Pair(10000.0, 9990.0);
-            this.sales[3] = new Sale("minus 10 after reaching 50", p, 3);
+            this.sales.get(3).setName("minus 10 after reaching 50");
+            this.sales.get(3).setPrice(p);
+            this.sales.get(3).setRemain(3);
         }
     }
 
-    public double check_remain() {
+    public double checkRemain() {
         return this.remain;
     }
 
-    public void buy_in(int product_id, int number, int[] sale_num) throws Exception {
-        Product product = this.storage.get_product(product_id);
+    public void buyIn(int product_id, int number, int[] sale_num) throws Exception {
+        Product product = this.storage.getProduct(product_id);
         Sale[] tmp_sales = new Sale[sale_num.length];
         for (int i = 0; i < tmp_sales.length; i++) {
-            tmp_sales[i] = this.sales[sale_num[i]];
+            tmp_sales[i] = this.sales.get(sale_num[i]);
         }
-        Double price = this.get_discount(number * product.price, tmp_sales);
+        Double price = this.getDiscount(number * product.getPrice(), tmp_sales);
         if (this.remain >= price) {
-            storage.sell_out(product_id, number);
+            storage.sellOut(product_id, number);
             for (Sale sale : tmp_sales) {
                 sale.consume();
             }
             this.remain -= price;
-            System.out.println("Sale Done!");
+            ui.print("Sale Done!\r\n");
         } else {
-            System.out.println("Sale Fail!");
+            ui.print("Sale Fail!\r\n");
             throw new Exception("not enough money");
         }
     }
 
-    public Double get_price(int product_id, int number, int[] sale_num) throws Exception {
-        Product product = this.storage.get_product(product_id);
+    public Double getPrice(int product_id, int number, int[] sale_num) throws Exception {
+        Product product = this.storage.getProduct(product_id);
         Sale[] tmp_sales = new Sale[sale_num.length];
         for (int i = 0; i < tmp_sales.length; i++) {
-            tmp_sales[i] = this.sales[sale_num[i]];
+            tmp_sales[i] = this.sales.get(sale_num[i]);
         }
-        Double price = this.get_discount(number * product.price, tmp_sales);
+        Double price = this.getDiscount(number * product.getPrice(), tmp_sales);
         return price;
     }
 
-    public void log_in() throws Exception {
+    public void logIn() throws Exception {
         if(this.login){
             throw new Exception("double login");
         }
         else{
             ui.print("Please log in first\r\n");
             ui.print("ID?\r\n");
-            String id = ui.get_line();
+            String id = ui.getNextLine();
             ui.print("Password?\r\n");
-            String password = ui.get_line();
+            String password = ui.getNextLine();
             this.check(id, password);
-            this.set_login();
-            ui.print("Log in Done!");
+            this.setLogin();
+            ui.print("Log in Done!\r\n");
         }
     }
 
-    public void log_out() throws Exception {
+    public void logOut() throws Exception {
         if (this.login) {
             this.login = false;
         } else {
@@ -103,17 +131,17 @@ public class Account {
         }
     }
 
-    public void edit_password() throws Exception {
+    public void editPassword() throws Exception {
         ui.print("ID: \r\n");
-        String id = ui.get_line();
+        String id = ui.getNextLine();
         ui.print("Old password: \r\n");
-        String old_password = ui.get_line();
+        String old_password = ui.getNextLine();
         this.check(id, old_password);
 
         ui.print("New password: ");
-        String password1 = ui.get_line();
+        String password1 = ui.getNextLine();
         ui.print("Confirm password: ");
-        String password2 = ui.get_line();
+        String password2 = ui.getNextLine();
         if (password1.equals(password2)) {
             this.password = password1;
         } else {
@@ -121,30 +149,26 @@ public class Account {
         }
     }
 
-    public Double get_remain() {
+    public Double getRemain() {
         return this.remain;
     }
 
-    public Boolean check_login() {
+    public Boolean checkLogin() {
         return this.login;
     }
 
-    public String get_id() {
+    public String getId() {
         return this.id;
     }
 
-    public void display_sale() {
-        System.out.println("This is the discount list");
-        for (int i = 1; i < this.sales.length; i++) {
-            if (this.sales[i] == null) {
-                break;
-            } else {
-                this.sales[i].display_sale();
-            }
+    public void displaySale() {
+        ui.print("This is the discount list\r\n");
+        for (int i = 1; i < this.sales.size(); i++) {
+            this.sales.get(i).display();
         }
     }
 
-    public Double get_discount(Double original_price, Sale[] sales) {
+    public Double getDiscount(Double original_price, Sale[] sales) {
         Double ans = original_price;
         for (int i = 0; i < sales.length; i++) {
             ans = sales[i].get_price(ans);
@@ -152,19 +176,18 @@ public class Account {
         return ans;
     }
 
-    public void set_login() throws Exception {
+    public void setLogin() throws Exception {
         this.login = true;
     }
 
     public void display() {
-        if (this.check_login()) {
-            System.out.println(this.get_id());
-            System.out.println("remaining: " + this.get_remain());
-            this.display_sale();
-            System.out.println();
+        if (this.checkLogin()) {
+            ui.print(this.getId()+"\r\n");
+            ui.print("remaining: " + this.getRemain()+"\r\n");
+            this.displaySale();
+            ui.print("\r\n");
         } else {
-            System.out.println("No user has logged in yet");
-            System.out.println();
+            ui.print("No user has logged in yet\r\n\r\n");
         }
     }
 
@@ -184,5 +207,53 @@ public class Account {
         } else {
             throw new Exception("id not found");
         }
+    }
+
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+
+    public UI getUi() {
+        return ui;
+    }
+
+    public void setUi(UI ui) {
+        this.ui = ui;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRemain(Double remain) {
+        this.remain = remain;
+    }
+
+    public boolean isLogin() {
+        return login;
+    }
+
+    public void setLogin(boolean login) {
+        this.login = login;
+    }
+
+    public ArrayList<Sale> getSales() {
+        return sales;
+    }
+
+    public void setSales(ArrayList<Sale> sales) {
+        this.sales = sales;
     }
 }

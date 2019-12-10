@@ -1,32 +1,65 @@
 package cn.moonshotacademy;
 
-public class Product {
-    public int id;
-    public String name;
-    public Double price;
-    public int remain;
+import org.springframework.beans.factory.annotation.Autowired;
 
-    /**
-     * Constructor of class Product
-     * @param id id of such product
-     * @param name name of such product
-     * @param price price of such product
-     * @param remain remaining number of such product
-     */
-    public Product(int id, String name, Double price, int remain) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.remain = remain;
+public class Product {
+    private int id;
+    private String name;
+    private Double price;
+    private int remain;
+    @Autowired
+    private UI ui;
+
+    public Product() {
     }
 
     /**
      * Display all category of products
      */
     public void display() {
-        System.out.print("id:" + this.id);
-        System.out.print("  name:" + this.name);
-        System.out.print("  price:" + this.price);
-        System.out.println("  remaining:" + this.remain);
+        ui.print("id:" + this.id);
+        ui.print("  name:" + this.name);
+        ui.print("  price:" + this.price);
+        ui.print("  remaining:" + this.remain + "\r\n");
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setRemain(int remain) {
+        this.remain = remain;
+    }
+
+    public void setUi(UI ui) {
+        this.ui = ui;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public int getRemain() {
+        return remain;
+    }
+
+    public UI getUi() {
+        return ui;
     }
 }

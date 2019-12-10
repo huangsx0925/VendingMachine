@@ -1,14 +1,12 @@
 package cn.moonshotacademy;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class App {
     public static void main(String[] args) {
-        UI ui = new UI();
-
-        Storage storage = new Storage();
-
-        Account account = new Account(storage, ui);
-
-        Controller controller = new Controller(account,storage,ui);
+        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Controller controller = (Controller) ac.getBean("controller");
         controller.init();
     }
 }
