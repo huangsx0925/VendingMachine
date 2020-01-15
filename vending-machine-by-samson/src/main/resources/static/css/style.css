@@ -1,0 +1,136 @@
+#inp {
+    width: 50%;
+    height: 50px;
+}
+
+.instruction {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 50%;
+    width: 50%;
+}
+
+.topbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 10%;
+    width: 100%;
+    background-color: #dddddd;
+}
+
+.productbutton {
+    display: block;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 50%;
+    text-align: center;
+}
+
+.accountbutton {
+    display: block;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 50%;
+    text-align: center;
+}
+
+#result {}
+
+#productresult {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#accountresult {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#login {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#loginsuccess {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#loginfail {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#logoutsuccess {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#logoutfail {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#buyproduct {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#salelist {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#salesuccess {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+#salefail {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    height: 50%;
+    width: 50%;
+}
+
+.inpbox {
+    position: fixed;
+    height: 20%;
+    width: 50%;
+    bottom: 0px;
+}

@@ -1,0 +1,77 @@
+<head>
+    <meta charset="utf-8" />
+    <title>Vending Machine!</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../static/css/style.css" th:href="@{css/style.css}" />
+    <script type="text/javascript" src="../static/js/node_modules/jquery/dist/jquery.js" th:src="@{js/node_modules/jquery/dist/jquery.js}"></script>
+    <script type="text/javascript" src="../static/js/script.js" th:src="@{js/script.js}"></script>
+</head>
+
+<body>
+    <!-- <div class="block">
+        <ul th:each="i: ${cs}">
+            <li th:text="${i.id}"></li>
+            <li th:text="${i.name}"></li>
+        </ul>
+    </div> -->
+    <!-- <div class="instruction">
+        <p>Welcome to the Vending Machine 1.0</p>
+        <p>Instructions:</p>
+        <p>(Please follow the rules below carefully)</p>
+        <p>input 'product': enter product page</p>
+        <p>input 'buy': buy some drinks</p>
+        <p>input 'account': enter account page</p>
+        <p>input 'login': log in your account</p>
+        <p>input 'logout': log out your account</p>
+        <p>input 'password': edit your password</p>
+    </div> -->
+    <div class="topbar">
+        <div class="productbutton" onclick="productgetdata()">
+            product
+        </div>
+        <div class="accountbutton" onclick="accountgetdata()">
+            account
+        </div>
+    </div>
+    <div class="result">
+        <table id="productresult">
+
+        </table>
+        <ul id="accountresult">
+
+        </ul>
+        <div id="login">
+            <p>usename</p>
+            <input id="username">
+            <p>password</p>
+            <input id="password" password=true>
+            <button onclick="logingetdata()">log in</button>
+        </div>
+        <div id="loginsuccess">
+            <p>login done!</p>
+        </div>
+        <div id="loginfail">
+            <p>login fail!</p>
+        </div>
+        <div id="logoutsuccess">
+            <p>logout done!</p>
+        </div>
+        <div id="logoutfail">
+            <p>logout fail!</p>
+        </div>
+        <div id="salelist">
+
+        </div>
+        <div id="salesuccess">
+            <p>Sale done!</p>
+        </div>
+        <div id="salefail">
+            <p>Sale fail!</p>
+        </div>
+    </div>
+    <p id="text"></p>
+    <!-- <div class="inpbox">
+        <p>request</p>
+        <input id="inp">
+        <button onclick="getdata()">:-)</button>
+    </div> -->
+</body>

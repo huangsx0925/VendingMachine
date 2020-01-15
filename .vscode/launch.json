@@ -12,10 +12,10 @@
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-App<VendingMachineBySamson>",
+            "name": "Debug (Launch)-DemoApplication<spring-boot-test>",
             "request": "launch",
-            "mainClass": "cn.moonshotacademy.App",
-            "projectName": "VendingMachineBySamson"
+            "mainClass": "cn.moonshotacademy.vendingmachinebysamson.DemoApplication",
+            "projectName": "spring-boot-test"
         }
     ]
 }
